@@ -2,6 +2,8 @@
 
 Este é um projeto para ajudar a organizar as contas do dia a dia de uma pessoa.
 
+Confira as features disponíveis: [Features](_docs/features.md)
+
 ## Como funciona?
 
  O projeto é feito com base em um API REST, utilizando o framework Laravel / Passport que segue o padrão OAuth.
@@ -36,7 +38,7 @@ Este é um projeto para ajudar a organizar as contas do dia a dia de uma pessoa.
 1. Clone o repositório para sua maquina
 
 ```bash
-https://github.com/marcelofabianov/paguei.git
+git clone https://github.com/marcelofabianov/paguei.git
 ```
 
 2. Remova o diretório git do projeto
