@@ -13,14 +13,23 @@
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
+        "captainhook/captainhook": "^5.14",
+        "ergebnis/composer-normalize": "^2.29",
         "roave/security-advisories": "dev-latest",
+        "laradumps/laradumps": "^1.9",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.0",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-mock": "^2.0",
+        "psalm/plugin-laravel": "^2.7",
+        "pyrech/composer-changelogs": "^2.0",
+        "vimeo/psalm": "^5.7"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +46,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "vendor/bin/captainhook install -f -s"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -60,7 +70,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "pyrech/composer-changelogs": true,
+            "ergebnis/composer-normalize": true
         }
     },
     "minimum-stability": "stable",

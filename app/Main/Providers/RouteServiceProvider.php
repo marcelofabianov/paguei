@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Main\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
             //'scope:public'
         ])
             ->as('web.')
-            ->group(fn() => Route::get('/', fn() => ':D'));
+            ->group(fn () => Route::get('/', fn () => '...'));
     }
 
     public function api(): void
@@ -62,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider
             //'scope:web'
         ])
             ->as('web.')
-            ->group(fn() => Route::get('/', fn() => 'Hi!'));
+            ->group(fn () => Route::get('/web', fn () => 'Hi!'));
     }
 
     protected function configureRateLimiting(): void

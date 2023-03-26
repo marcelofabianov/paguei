@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Main\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-trait JsonResponse
+trait DefaultJsonResponseTrait
 {
     protected function success(
         array|object $data = [],

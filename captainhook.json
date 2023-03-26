@@ -1,0 +1,30 @@
+{
+    "config": {
+        "run-mode": "docker",
+        "run-exec": "docker exec app"
+    },
+    "commit-msg": {
+        "enabled": false,
+        "actions": []
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "./vendor/bin/psalm",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "./vendor/bin/pint -v",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "php artisan test --env=testing",
+                "options": [],
+                "conditions": []
+            }
+        ]
+    }
+}
