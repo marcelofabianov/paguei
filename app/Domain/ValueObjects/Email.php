@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\ValueObjects;
 
 use InvalidArgumentException;
-use Ramsey\Uuid\Uuid as RamseyUuid;
 
-final readonly class Uuid
+final readonly class Email
 {
     private string $value;
 
@@ -31,25 +30,24 @@ final readonly class Uuid
         return $this->getValue();
     }
 
-    public function version(): string
-    {
-        return 'UUID Version-4 RFC 4122';
-    }
-
-    public static function isValid(string $value): bool
-    {
-        return RamseyUuid::isValid($value);
-    }
-
     public static function random(): self
     {
-        return new self((string) RamseyUuid::uuid4());
+        return self::create(fake()->email());
+    }
+
+    public static function isValid(string $email): bool
+    {
+        if (filter_var(filter_var($email, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL)) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function create(mixed $value): self
     {
         if (! is_string($value) || ! self::isValid($value)) {
-            throw new InvalidArgumentException('UUID is invalid! Please provide a valid');
+            throw new InvalidArgumentException('Email is invalid! Please provide a valid email address.');
         }
 
         return new self($value);

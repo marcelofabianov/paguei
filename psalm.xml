@@ -11,6 +11,7 @@
         <directory name="database/seeders"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <directory name="app/Domain/Models/Casts"/>
         </ignoreFiles>
     </projectFiles>
     <forbiddenFunctions>
