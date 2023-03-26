@@ -27,18 +27,19 @@ class RouteServiceProvider extends ServiceProvider
 
     public function public(): void
     {
-        Route::middleware([
-            'web',
-        ])
-            ->as('web.')
-            ->group(fn () => Route::get('/', fn () => '...'));
+        Route::middleware(['web'])
+            ->group(function () {
+                Route::get('/', fn () => '...');
+                Route::get('/login', fn () => '...')->name('login');
+            });
     }
 
     public function api(): void
     {
         Route::middleware([
             'api',
-            'auth.api',
+            'json.response',
+            'auth:api',
             'scope:adm',
         ])
             ->prefix('api/administrators/v1')
@@ -47,7 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::middleware([
             'api',
-            'auth.api',
+            'json.response',
+            'auth:api',
             'scope:customers',
         ])
             ->prefix('api/customers/v1')

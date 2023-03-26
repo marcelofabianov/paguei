@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domain\Enums\UserRoleEnum;
 use App\Domain\Models\Audit\UserAuditTrait;
 use App\Domain\Models\Scopes\InactivatedAtScope;
 use App\Domain\ValueObjects\Uuid;
@@ -41,7 +42,7 @@ final class User extends Authenticatable
         'email',
         'password',
         'inactivatedAt',
-        'isAdministrator',
+        'role',
     ];
 
     protected $hidden = [
@@ -52,7 +53,7 @@ final class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'inactivatedAt' => 'datetime',
-        'isAdmin' => 'boolean',
+        'role' => UserRoleEnum::class,
     ];
 
     public function newUniqueId(): string

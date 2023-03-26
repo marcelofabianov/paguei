@@ -17,7 +17,7 @@ return new class() extends Migration {
             $table->string('password');
             $table->dateTime('inactivatedAt')->nullable();
             $table->rememberToken();
-            $table->boolean('isAdmin')->default(false);
+            $table->enum('role', ['administrator', 'customer']);
             $table->timestamp('createdAt');
             $table->timestamp('updatedAt');
             $table->timestamp('deletedAt')->nullable();
