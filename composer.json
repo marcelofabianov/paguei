@@ -10,7 +10,9 @@
         "ext-pdo": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^10.4",
-        "laravel/tinker": "^2.8"
+        "laravel/passport": "^11.8",
+        "laravel/tinker": "^2.8",
+        "ramsey/uuid": "^4.7"
     },
     "require-dev": {
         "captainhook/captainhook": "^5.14",

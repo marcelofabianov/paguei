@@ -191,6 +191,7 @@ return [
         /*
          * Application Service Providers...
          */
+        \App\Main\Providers\OAuthServiceProvider::class,
         \App\Main\Providers\AppServiceProvider::class,
         \App\Main\Providers\AuthServiceProvider::class,
         \App\Main\Providers\EventServiceProvider::class,

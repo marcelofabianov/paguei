@@ -1,6 +1,6 @@
 # Paguei
 
-Este é um projeto para ajudar a organizar as contas de um grupo de pessoas.
+Este é um projeto para ajudar a organizar as contas do dia a dia de uma pessoa.
 
 ## Como funciona?
 
@@ -60,7 +60,7 @@ source alias.sh
 5. Inicie os containers docker
 
 ```bash
-app.up
+pg.up
 ```
 
 ou
@@ -72,11 +72,72 @@ docker compose up -d
 6. Instale as dependencias do projeto
 
 ```bash
-app.composer install
+pg.composer install
 ```
 
 7. Gere uma chave de criptografia
 
 ```bash
-app.art key:generate
+pg.art key:generate
+```
+
+8. Gere uma chave de OAuth
+
+```bash
+pg.art passport:keys
+```
+
+9. Execute as migrations
+
+```bash
+pg.migrate
+```
+
+10. Gere os dados de teste para utilizar a API
+
+```bash
+pg.oauth
+```
+
+11. Execute o cURL para testar a API
+
+Substitua os valores de "..." pelos dados gerados no passo 10.
+
+```bash
+```bash
+curl --location 'http://localhost/oauth/token' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "grant_type":"password",
+  "client_id":"...",
+  "client_secret":"...",
+  "username":"bob@email.com",
+  "password":"password",
+  "scope":"*"
+}'
+```
+
+12. Execute os testes
+
+```bash
+pg.test
+```
+
+13. Execute o lint quando precisar
+
+```bash
+pg.lint
+```
+
+14. Check a sintaxe do código
+
+```bash
+pg.psalm
+```
+
+15. Leia os alias disponíveis
+
+```bash
+pg.help
 ```
