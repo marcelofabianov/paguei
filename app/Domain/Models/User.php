@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domain\Models\Audit\UserAuditTrait;
 use App\Domain\Models\Scopes\InactivatedAtScope;
 use App\Domain\ValueObjects\Uuid;
 use Database\Factories\UserFactory;
@@ -23,6 +24,7 @@ final class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use InactivatedAtScope;
+    use UserAuditTrait;
 
     const CREATED_AT = 'createdAt';
 

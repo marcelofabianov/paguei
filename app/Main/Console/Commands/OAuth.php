@@ -21,9 +21,11 @@ class OAuth extends Command
      */
     public function handle(): void
     {
+        auth()->login(User::factory()->createOneQuietly());
+
         DB::table('users')->where('email', 'bob@email.com')->delete();
 
-        $user = User::factory()->createOneQuietly([
+        $user = User::factory()->createOne([
             'name' => 'Bob',
             'email' => 'bob@email.com',
         ]);
