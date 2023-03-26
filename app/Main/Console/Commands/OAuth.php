@@ -46,9 +46,12 @@ class OAuth extends Command
             'password' => 'password',
             'scope' => '*',
         ];
+        $json = json_encode($credentials, JSON_THROW_ON_ERROR);
 
         $this->info('User Api Credentials');
 
-        $this->info(json_encode($credentials, JSON_THROW_ON_ERROR));
+        $this->info($json);
+
+        ds($json, $credentials)->label('User Api Credentials');
     }
 }
