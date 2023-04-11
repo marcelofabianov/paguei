@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Consumers\Customers\Repositories;
 
 use App\Consumers\Customers\Dto\CreateCategoryDto;
+use App\Consumers\Customers\Dto\UpdateCategoryDto;
 use App\Contracts\Consumers\Customers\Repositories\CategoryRepository as CategoryRepositoryContract;
 use App\Domain\Models\Category;
 
@@ -19,6 +20,16 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
     {
         $category = $this->categoryModel->newInstance();
         $category->fill($createCategoryDto->toArray());
+        $category->save();
+
+        return $category;
+    }
+
+    public function updateCategory(UpdateCategoryDto $updateCategoryDto): Category
+    {
+        /** @var Category $category */
+        $category = $this->categoryModel->findOrFail($updateCategoryDto->categoryId->getValue());
+        $category->fill($updateCategoryDto->toArray());
         $category->save();
 
         return $category;
