@@ -2,4 +2,7 @@
 
 Voltar ao [Índice](../README.md)
 
-Em breve...
+### Cliente / Categorias
+
+- [x] Cadastrar categoria
+- [x] Atualizar categoria
