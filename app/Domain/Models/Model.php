@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use App\Domain\ValueObjects\Uuid;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property string $id
+ * @property DateTimeInterface $inactivatedAt
+ * @property DateTimeInterface $createdAt
+ * @property DateTimeInterface $updatedAt
+ * @property DateTimeInterface $deletedAt
+ */
 class Model extends Eloquent
 {
     use HasUuids;

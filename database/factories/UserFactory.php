@@ -26,14 +26,7 @@ final class UserFactory extends Factory
             'inactivatedAt' => null,
             'createdAt' => now(),
             'updatedAt' => now(),
-            'deletedAt' => false,
+            'deletedAt' => null,
         ];
-    }
-
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }

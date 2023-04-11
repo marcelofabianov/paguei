@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use JsonException;
 use stdClass;
 
-final readonly class Json
+final readonly class Json implements \JsonSerializable
 {
     private array|string $value;
 
@@ -41,6 +41,11 @@ final readonly class Json
     public function encode(): string|bool
     {
         return json_encode($this->value, JSON_THROW_ON_ERROR);
+    }
+
+    public function jsonSerialize(): stdClass|array|bool
+    {
+        return $this->decode();
     }
 
     /**

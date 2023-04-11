@@ -15,14 +15,14 @@ return new class() extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->dateTime('inactivatedAt')->nullable();
             $table->rememberToken();
             $table->string('role');
+            $table->dateTime('inactivatedAt')->nullable();
             $table->timestamp('createdAt');
             $table->timestamp('updatedAt');
             $table->timestamp('deletedAt')->nullable();
 
-            $table->index(['id', 'email', 'inactivatedAt']);
+            $table->index(['id', 'email']);
         });
     }
 

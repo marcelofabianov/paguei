@@ -6,7 +6,7 @@ namespace App\Domain\ValueObjects;
 
 use InvalidArgumentException;
 
-final readonly class Email
+final readonly class Email implements \Stringable, \JsonSerializable
 {
     private string $value;
 
@@ -28,6 +28,11 @@ final readonly class Email
     public function equals(self $other): bool
     {
         return $this->getValue() === $other->getValue();
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->getValue();
     }
 
     public static function random(): self

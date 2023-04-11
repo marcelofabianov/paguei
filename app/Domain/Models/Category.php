@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Models\Casts\UuidCast;
 use App\Domain\Models\Scopes\InactivatedAtScope;
+use App\Domain\ValueObjects\Uuid;
 use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property Uuid $userId
+ * @property string $name
+ * @property bool $public
+ */
 final class Category extends Model
 {
     use HasFactory;
@@ -16,12 +23,20 @@ final class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
+        'userId',
         'name',
+        'public',
         'inactivatedAt',
     ];
 
-    protected function newFactory(): CategoryFactory
+    protected $casts = [
+        'userId' => UuidCast::class,
+        'public' => 'boolean',
+        'inactivatedAt' => 'datetime',
+    ];
+
+    protected static function newFactory(): CategoryFactory
     {
-        return new CategoryFactory();
+        return CategoryFactory::new();
     }
 }

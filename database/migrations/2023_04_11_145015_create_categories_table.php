@@ -11,13 +11,15 @@ return new class() extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
-            $table->timestamps();
-            $table->timestamp('inactivatedAt');
+            $table->uuid('userId')->index();
+            $table->string('name');
+            $table->boolean('public')->default(false);
+            $table->datetime('inactivatedAt')->nullable();
             $table->timestamp('createdAt');
             $table->timestamp('updatedAt');
             $table->timestamp('deletedAt')->nullable();
 
-            $table->index(['id', 'inactivatedAt']);
+            $table->index(['id', 'inactivatedAt', 'user_id']);
         });
     }
 

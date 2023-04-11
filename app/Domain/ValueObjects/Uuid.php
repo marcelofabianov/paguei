@@ -7,7 +7,7 @@ namespace App\Domain\ValueObjects;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
-final readonly class Uuid
+final readonly class Uuid implements \JsonSerializable, \Stringable
 {
     private string $value;
 
@@ -44,6 +44,11 @@ final readonly class Uuid
     public static function random(): self
     {
         return new self((string) RamseyUuid::uuid4());
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->getValue();
     }
 
     public static function create(mixed $value): self
