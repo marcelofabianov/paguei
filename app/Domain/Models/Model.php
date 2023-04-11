@@ -16,11 +16,13 @@ class Model extends Eloquent
     use Notifiable;
     use SoftDeletes;
 
-    const CREATED_AT = 'createdAt';
+    public const CREATED_AT = 'createdAt';
 
-    const UPDATED_AT = 'updatedAt';
+    public const UPDATED_AT = 'updatedAt';
 
-    const DELETED_AT = 'deletedAt';
+    public const DELETED_AT = 'deletedAt';
+
+    public $incrementing = false;
 
     protected $perPage = 200;
 
@@ -29,8 +31,6 @@ class Model extends Eloquent
     protected $primaryKey = 'id';
 
     protected $keyType = 'string';
-
-    public $incrementing = false;
 
     public function newUniqueId(): string
     {

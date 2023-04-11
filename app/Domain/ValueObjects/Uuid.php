@@ -16,6 +16,11 @@ final readonly class Uuid
         $this->value = $value;
     }
 
+    public function __toString(): string
+    {
+        return $this->getValue();
+    }
+
     public function getValue(): string
     {
         return $this->value;
@@ -24,11 +29,6 @@ final readonly class Uuid
     public function equals(self $other): bool
     {
         return $this->getValue() === $other->getValue();
-    }
-
-    public function __toString(): string
-    {
-        return $this->getValue();
     }
 
     public function version(): string

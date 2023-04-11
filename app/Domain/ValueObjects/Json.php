@@ -17,6 +17,14 @@ final readonly class Json
         $this->value = $value;
     }
 
+    /**
+     * @throws JsonException
+     */
+    public function __toString(): string
+    {
+        return json_encode($this->value, JSON_THROW_ON_ERROR);
+    }
+
     public function getValue(): array|string
     {
         return $this->value;
@@ -25,14 +33,6 @@ final readonly class Json
     public function equals(self $other): bool
     {
         return $this->getValue() === $other->getValue();
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function __toString(): string
-    {
-        return json_encode($this->value, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -48,7 +48,6 @@ final readonly class Json
      */
     public function decode(): stdClass|array|bool
     {
-        $result = null;
         if (is_string($this->value)) {
             $result = json_decode($this->value, false, 512, JSON_THROW_ON_ERROR);
             if (is_string($result)) {

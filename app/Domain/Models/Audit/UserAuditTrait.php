@@ -8,7 +8,7 @@ use stdClass;
 
 trait UserAuditTrait
 {
-    public function auditData(stdClass $data = null): array
+    public function auditData(?stdClass $data = null): array
     {
         $user = $data ?? $this;
 

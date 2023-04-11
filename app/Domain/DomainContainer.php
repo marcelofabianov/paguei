@@ -11,7 +11,6 @@ final class DomainContainer
 {
     public function register(): void
     {
-        //
     }
 
     public function observers(): void

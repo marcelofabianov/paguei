@@ -8,6 +8,5 @@ final class AdministratorsContainer
 {
     public function register(): void
     {
-        //
     }
 }

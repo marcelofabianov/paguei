@@ -1,24 +1,25 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="7"
-    resolveFromConfigFile="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorLevel="7"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        findUnusedBaselineEntry="false"
+        findUnusedCode="false"
 >
     <projectFiles>
         <directory name="app"/>
-        <directory name="database/seeders"/>
         <ignoreFiles>
             <directory name="vendor"/>
             <directory name="app/Domain/Models/Casts"/>
         </ignoreFiles>
     </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
+    </plugins>
     <forbiddenFunctions>
         <function name="var_dump" />
         <function name="dd" />
     </forbiddenFunctions>
-    <plugins>
-        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
-    </plugins>
 </psalm>

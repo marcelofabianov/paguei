@@ -8,6 +8,5 @@ final class CustomersContainer
 {
     public function register(): void
     {
-        //
     }
 }

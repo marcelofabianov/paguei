@@ -26,12 +26,13 @@
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0",
-        "pestphp/pest": "^2.0",
+        "pestphp/pest": "^2.2",
         "pestphp/pest-plugin-laravel": "^2.0",
         "pestphp/pest-plugin-mock": "^2.0",
         "psalm/plugin-laravel": "^2.7",
         "pyrech/composer-changelogs": "^2.0",
-        "vimeo/psalm": "^5.7"
+        "vimeo/psalm": "^5.7",
+        "nunomaduro/phpinsights": "^2.8"
     },
     "autoload": {
         "psr-4": {
@@ -74,7 +75,8 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true,
             "pyrech/composer-changelogs": true,
-            "ergebnis/composer-normalize": true
+            "ergebnis/composer-normalize": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "minimum-stability": "stable",

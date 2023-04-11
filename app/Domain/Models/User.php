@@ -27,15 +27,15 @@ final class User extends Authenticatable
     use InactivatedAtScope;
     use UserAuditTrait;
 
-    const CREATED_AT = 'createdAt';
+    public const CREATED_AT = 'createdAt';
 
-    const UPDATED_AT = 'updatedAt';
+    public const UPDATED_AT = 'updatedAt';
 
-    const DELETED_AT = 'deletedAt';
-
-    protected $keyType = 'string';
+    public const DELETED_AT = 'deletedAt';
 
     public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'name',
