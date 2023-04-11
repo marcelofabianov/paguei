@@ -14,5 +14,7 @@ test('Deve criar uma categoria', function () {
         'id' => $category->id,
         'name' => $category->name,
         'public' => $category->public,
+        'inactivatedAt' => null,
     ]);
-});
+})
+    ->group('unit', 'Category');

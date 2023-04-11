@@ -59,3 +59,11 @@ function admApiCredentials(User|null $user = null, array $scopes = ['adm']): Use
 
     return $user;
 }
+
+function userApiCredentials(User|null $user = null, array $scopes = ['customers']): User
+{
+    $user = $user ?? User::factory()->createOneQuietly(['role' => 'customer']);
+    Passport::actingAs($user, $scopes);
+
+    return $user;
+}

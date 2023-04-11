@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Consumers\Customers\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,3 +18,5 @@ Route::get('/', function () {
         ],
     ]);
 })->name('default');
+
+Route::apiResource('categories', CategoriesController::class);
