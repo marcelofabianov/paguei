@@ -2,22 +2,57 @@
 
 declare(strict_types=1);
 
+use App\Domain\Models\User;
+use Laravel\Passport\Passport;
+
+use function Pest\Laravel\get;
+
 use Symfony\Component\HttpFoundation\Response;
 
-test('Deve acessar a rota padrao dos clientes e retornar o status 200')
-    ->todo()
-    ->withHeaders(['Accept' => 'application/json'])
-    ->get('/api/administrators/v1')
-    ->assertStatus(Response::HTTP_OK);
+test('Deve receber um erro 401 ao acessar roda nao autenticado', function () {
+    $response = get('/api/v1', ['Accept' => 'application/json'])
+        ->assertUnauthorized()
+        ->json();
 
-test('Deve barrar o acesso a rota padrao dos clientes sem autenticacao')
-    ->withHeaders(['Accept' => 'application/json'])
-    ->get('/api/administrators/v1')
-    ->assertStatus(Response::HTTP_UNAUTHORIZED);
+    expect($response)->toEqual([
+        'message' => 'Unauthenticated.',
+    ]);
+});
 
-test('Deve barrar o acesso a rota padrao dos clientes com autenticacao de que não sao clientes')
-    ->todo()
-    ->withHeaders(['Accept' => 'application/json'])
-    //->actingAs($this->user)
-    ->get('/api/administrators/v1')
-    ->assertStatus(Response::HTTP_FORBIDDEN);
+test('Deve receber um erro 403 ao acessar rota autenticado como usuario comum', function () {
+    Passport::actingAs(User::factory()->createOneQuietly(['role' => 'administrator']), ['customers']);
+
+    $response = get('/api/v1', ['Accept' => 'application/json'])
+        ->assertForbidden()
+        ->json();
+
+    expect($response)->toEqual([
+        'data' => [
+            'message' => 'This action is unauthorized.',
+        ],
+        'status' => [
+            'code' => Response::HTTP_FORBIDDEN,
+            'message' => 'FORBIDDEN',
+            'success' => false,
+        ],
+    ]);
+});
+
+test('Deve acessar a rota padrao dos administradores e retornar o status 200', function () {
+    Passport::actingAs(User::factory()->createOneQuietly(['role' => 'customer']), ['customers']);
+
+    $response = get('/api/v1', ['Accept' => 'application/json'])
+        ->assertOk()
+        ->json();
+
+    expect($response)->toEqual([
+        'data' => [
+            'message' => 'Welcome to the API.',
+        ],
+        'status' => [
+            'code' => Response::HTTP_OK,
+            'message' => 'OK',
+            'success' => true,
+        ],
+    ]);
+});

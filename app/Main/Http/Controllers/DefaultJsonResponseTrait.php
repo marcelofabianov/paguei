@@ -65,12 +65,25 @@ trait DefaultJsonResponseTrait
         return $this->fail(['message' => $message], Response::HTTP_NOT_FOUND, 'NOT FOUND');
     }
 
-    protected function unauthorized(string $message): JsonResponse
+    protected function unauthorized(?string $message = null): JsonResponse
     {
+        $message = $message ?? 'Unauthenticated.';
+
         return $this->fail(
             ['message' => $message],
             Response::HTTP_UNAUTHORIZED,
             'UNAUTHORIZED'
+        );
+    }
+
+    protected function forbidden(?string $message = null): JsonResponse
+    {
+        $message = $message ?? 'This action is unauthorized.';
+
+        return $this->fail(
+            ['message' => $message],
+            Response::HTTP_FORBIDDEN,
+            'FORBIDDEN'
         );
     }
 

@@ -18,8 +18,6 @@ class TrustProxies extends Middleware
 
     /**
      * The headers that should be used to detect proxies.
-     *
-     * @var int
      */
     protected $headers =
         Request::HEADER_X_FORWARDED_FOR |

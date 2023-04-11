@@ -28,6 +28,7 @@ Confira as features disponíveis: [Features](_docs/features.md)
 - Pest
 - Pint
 - Psalm
+- phpinsights
 - captainhook
 - security-advisories
 - laradumps

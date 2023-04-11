@@ -49,5 +49,7 @@ class Kernel extends HttpKernel
         'json.response' => \App\Main\Http\Middleware\ForceJsonResponse::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        // Role
+        'role' => \App\Main\Http\Middleware\CheckRole::class,
     ];
 }

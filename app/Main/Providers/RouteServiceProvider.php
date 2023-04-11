@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
+        $this->routes(function (): void {
             $this->public();
             $this->api();
             $this->web();
@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
     public function public(): void
     {
         Route::middleware(['web'])
-            ->group(function () {
+            ->group(function (): void {
                 Route::get('/', fn () => '...');
                 Route::get('/login', fn () => '...')->name('login');
             });
@@ -40,19 +40,21 @@ class RouteServiceProvider extends ServiceProvider
             'api',
             'json.response',
             'auth:api',
+            'role:administrator',
             'scope:adm',
         ])
-            ->prefix('api/administrators/v1')
-            ->as('api.administrators.')
+            ->prefix('api/adm/v1')
+            ->as('api.adm.')
             ->group(app_path('Consumers/Administrators/Http/routes.php'));
 
         Route::middleware([
             'api',
             'json.response',
             'auth:api',
+            'role:customer',
             'scope:customers',
         ])
-            ->prefix('api/customers/v1')
+            ->prefix('api/v1')
             ->as('api.customers.')
             ->group(app_path('Consumers/Customers/Http/routes.php'));
     }

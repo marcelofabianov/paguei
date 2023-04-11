@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 Route::get('/', function () {
     return response()->json([
         'data' => [
-            'message' => 'Administrators, welcome to the API',
+            'message' => 'Welcome to the API of the administrators.',
         ],
         'status' => [
             'code' => Response::HTTP_OK,

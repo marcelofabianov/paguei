@@ -13,6 +13,9 @@ declare(strict_types=1);
 |
 */
 
+use App\Domain\Models\User;
+use Laravel\Passport\Passport;
+
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -26,6 +29,7 @@ uses(
 uses(
     Tests\TestCase::class,
 )->in('Unit');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
@@ -55,4 +59,12 @@ expect()->extend('toBeOne', function () {
 function defaultHeaders(): array
 {
     return ['Accept' => 'application/json'];
+}
+
+function admApiCredentials(User|null $user = null, array $scopes = ['adm']): User
+{
+    $user = $user ?? User::factory()->createOneQuietly();
+    Passport::actingAs($user, $scopes);
+
+    return $user;
 }
