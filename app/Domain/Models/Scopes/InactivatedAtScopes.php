@@ -6,7 +6,7 @@ namespace App\Domain\Models\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait InactivatedAtScope
+trait InactivatedAtScopes
 {
     public function scopeWhenActive(Builder $query): Builder
     {

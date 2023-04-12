@@ -8,6 +8,7 @@ use App\Consumers\Customers\Dto\CreateCategoryDto;
 use App\Consumers\Customers\Dto\UpdateCategoryDto;
 use App\Contracts\Consumers\Customers\Repositories\CategoryRepository as CategoryRepositoryContract;
 use App\Domain\Models\Category;
+use App\Domain\ValueObjects\Uuid;
 
 final readonly class CategoryRepository implements CategoryRepositoryContract
 {
@@ -28,12 +29,21 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
     public function updateCategory(UpdateCategoryDto $updateCategoryDto): Category
     {
         $category = $this->categoryModel
-            ->whereCreator($updateCategoryDto->categoryId, $updateCategoryDto->userId)
+            ->whereCategoryAndCreator($updateCategoryDto->categoryId, $updateCategoryDto->userId)
             ->firstOrFail();
 
         $category->fill($updateCategoryDto->toArray());
         $category->save();
 
         return $category;
+    }
+
+    public function deleteCategory(Uuid $categoryId, Uuid $userId): bool
+    {
+        $category = $this->categoryModel
+            ->whereCategoryAndCreator($categoryId, $userId)
+            ->firstOrFail();
+
+        return $category->delete();
     }
 }

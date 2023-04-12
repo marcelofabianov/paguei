@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Domain\Models\Category;
 
+use function Pest\Laravel\delete;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\putJson;
 
@@ -176,3 +177,47 @@ todo('Deve receber o registro da categoria que correspondente ao id informado do
 
 todo('Deve receber a listagem de categorias que o usuario logado cadastrou em ordem alfabetica')
     ->group('feature', 'customers', 'categories', 'index', 'success');
+
+test('Deve informar um id que corresponde a uma categoria criada pelo usuario logado para excluir', function () {
+    $category = Category::factory()->createOneQuietly(['userId' => $this->user->id]);
+
+    $response = delete(route('api.customers.categories.destroy', $category->id), [], defaultHeaders())
+        ->assertOk()
+        ->json();
+
+    $expected = [
+        'data' => [
+            'message' => 'Category deleted successfully.',
+        ],
+        'status' => [
+            'code' => Response::HTTP_OK,
+            'message' => 'OK',
+            'success' => true,
+        ],
+    ];
+
+    expect($response)->toEqual($expected);
+})
+    ->group('feature', 'customers', 'categories', 'destroy', 'success');
+
+test('Deve receber um erro ao tentar excluir uma categoria que nao existe ou nao pertence ao usuario logado', function () {
+    $category = Category::factory()->createOneQuietly();
+
+    $response = delete(route('api.customers.categories.destroy', $category->id), [], defaultHeaders())
+        ->assertNotFound()
+        ->json();
+
+    $expected = [
+        'data' => [
+            'message' => 'Resource not found.',
+        ],
+        'status' => [
+            'code' => Response::HTTP_NOT_FOUND,
+            'message' => 'NOT FOUND',
+            'success' => false,
+        ],
+    ];
+
+    expect($response)->toEqual($expected);
+})
+    ->group('feature', 'customers', 'categories', 'destroy', 'fail');

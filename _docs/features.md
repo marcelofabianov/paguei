@@ -6,7 +6,7 @@ Voltar ao [Índice](../README.md)
 
 - [x] Cadastrar categoria
 - [x] Atualizar categoria
-- [ ] Deletar categoria
+- [x] Deletar categoria
 - [ ] Listar categorias
 - [ ] Buscar categoria por id
 

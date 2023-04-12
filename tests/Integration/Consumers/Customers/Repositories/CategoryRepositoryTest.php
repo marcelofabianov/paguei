@@ -64,3 +64,24 @@ test('Deve retornar um erro ao tentar atualizar um registro de "Category" que na
     $categoryRepository->updateCategory($updateCategoryDto);
 })
     ->group('integration', 'CategoryRepository', 'fail', 'exception');
+
+test('Deve retornar um true ao deletar a categoria correspondente ao id informado', function () {
+    $user = User::factory()->createOneQuietly();
+    $category = Category::factory()->createOneQuietly(['userId' => $user->id]);
+
+    $categoryRepository = new CategoryRepository(new Category());
+    $deleted = $categoryRepository->deleteCategory(Uuid::create($category->id), Uuid::create($user->id));
+
+    expect($deleted)->toBeTrue();
+})
+    ->group('integration', 'CategoryRepository');
+
+test('Deve retornar um erro ao tentar deletar um registro de "Category" que nao existe', function () {
+    $user = User::factory()->createOneQuietly();
+
+    $this->expectException(ModelNotFoundException::class);
+
+    $categoryRepository = new CategoryRepository(new Category());
+    $categoryRepository->deleteCategory(Uuid::random(), Uuid::create($user->id));
+})
+    ->group('integration', 'CategoryRepository', 'fail', 'exception');

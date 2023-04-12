@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Contracts\Domain\Models\Scopes\CategoryScopes as CategoryScopesContract;
 use App\Domain\Models\Casts\UuidCast;
-use App\Domain\Models\Scopes\CategoryScope;
-use App\Domain\Models\Scopes\InactivatedAtScope;
+use App\Domain\Models\Scopes\CategoryScopes;
+use App\Domain\Models\Scopes\InactivatedAtScopes;
 use App\Domain\ValueObjects\Uuid;
 use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,13 +17,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $name
  * @property bool $public
  *
- * @method whereCreator(Uuid $categoryId, Uuid $userId)
+ * @method whereCategoryAndCreator(Uuid $categoryId, Uuid $userId)
  */
-final class Category extends Model
+final class Category extends Model implements CategoryScopesContract
 {
     use HasFactory;
-    use InactivatedAtScope;
-    use CategoryScope;
+    use InactivatedAtScopes;
+    use CategoryScopes;
 
     protected $table = 'categories';
 

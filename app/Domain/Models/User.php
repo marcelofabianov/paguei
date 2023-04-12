@@ -8,7 +8,7 @@ namespace App\Domain\Models;
 use App\Domain\Enums\UserRoleEnum;
 use App\Domain\Models\Audit\UserAuditTrait;
 use App\Domain\Models\Casts\EmailCast;
-use App\Domain\Models\Scopes\InactivatedAtScope;
+use App\Domain\Models\Scopes\InactivatedAtScopes;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Uuid;
 use Database\Factories\UserFactory;
@@ -38,7 +38,7 @@ final class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
-    use InactivatedAtScope;
+    use InactivatedAtScopes;
     use UserAuditTrait;
 
     public const CREATED_AT = 'createdAt';

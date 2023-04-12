@@ -68,4 +68,18 @@ final class CategoriesController extends Controller
 
         return $this->success($category->toArray());
     }
+
+    public function destroy(Request $request, string $categoryId): JsonResponse
+    {
+        try {
+            $this->categoryRepository->deleteCategory(
+                Uuid::create($categoryId),
+                Uuid::create($request->user()->id)
+            );
+        } catch (ModelNotFoundException) {
+            return $this->notFound();
+        }
+
+        return $this->success(['message' => 'Category deleted successfully.']);
+    }
 }
