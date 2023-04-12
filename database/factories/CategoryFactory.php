@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
             'id' => Uuid::random()->getValue(),
             'userId' => User::factory(),
             'name' => fake()->name(),
-            'public' => fake()->boolean(),
+            'public' => false,
             'inactivatedAt' => null,
             'createdAt' => now(),
             'updatedAt' => now(),

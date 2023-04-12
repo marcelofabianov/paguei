@@ -10,21 +10,27 @@ use App\Contracts\Consumers\Customers\Repositories\CategoryRepository;
 use App\Domain\ValueObjects\Uuid;
 use App\Main\Http\Controllers\Controller;
 use App\Main\Http\Controllers\DefaultJsonResponseTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 final class CategoriesController extends Controller
 {
     use DefaultJsonResponseTrait;
 
     public function __construct(
-        private CategoryRepository $categoryRepository,
+        private readonly CategoryRepository $categoryRepository,
     ) {
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->validate($request, ['name' => 'required|string|max:255|min:3|unique:categories,name']);
+        try {
+            $this->validate($request, ['name' => 'required|string|max:255|min:3|unique:categories,name']);
+        } catch (ValidationException $exception) {
+            return $this->validateFail($exception->getMessage(), $exception->errors());
+        }
 
         $createCategoryDto = new CreateCategoryDto(
             name: $request->input('name'),
@@ -38,7 +44,14 @@ final class CategoriesController extends Controller
 
     public function update(Request $request, string $categoryId): JsonResponse
     {
-        $this->validate($request, ['name' => 'required|string|max:255|min:3|unique:categories,name,'.$categoryId]);
+        try {
+            $this->validate($request, [
+                'name' => 'required|string|max:255|min:3|unique:categories,name,'.$categoryId,
+                'inactivated' => 'required|boolean',
+            ]);
+        } catch (ValidationException $exception) {
+            return $this->validateFail($exception->getMessage(), $exception->errors());
+        }
 
         $updateCategoryDto = new UpdateCategoryDto(
             categoryId: Uuid::create($categoryId),
@@ -47,7 +60,11 @@ final class CategoriesController extends Controller
             inactivated: $request->input('inactivated'),
         );
 
-        $category = $this->categoryRepository->updateCategory($updateCategoryDto);
+        try {
+            $category = $this->categoryRepository->updateCategory($updateCategoryDto);
+        } catch (ModelNotFoundException) {
+            return $this->notFound();
+        }
 
         return $this->success($category->toArray());
     }

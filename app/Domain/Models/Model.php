@@ -40,6 +40,10 @@ class Model extends Eloquent
 
     protected $keyType = 'string';
 
+    protected $hidden = [
+        'deletedAt',
+    ];
+
     public function newUniqueId(): string
     {
         return Uuid::random()->getValue();

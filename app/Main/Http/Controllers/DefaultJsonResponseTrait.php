@@ -60,8 +60,10 @@ trait DefaultJsonResponseTrait
         );
     }
 
-    protected function notFound(string $message): JsonResponse
+    protected function notFound(?string $message = null): JsonResponse
     {
+        $message = $message ?? 'Resource not found.';
+
         return $this->fail(['message' => $message], Response::HTTP_NOT_FOUND, 'NOT FOUND');
     }
 

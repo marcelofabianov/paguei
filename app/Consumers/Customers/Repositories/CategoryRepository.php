@@ -27,8 +27,10 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
 
     public function updateCategory(UpdateCategoryDto $updateCategoryDto): Category
     {
-        /** @var Category $category */
-        $category = $this->categoryModel->findOrFail($updateCategoryDto->categoryId->getValue());
+        $category = $this->categoryModel
+            ->whereCreator($updateCategoryDto->categoryId, $updateCategoryDto->userId)
+            ->firstOrFail();
+
         $category->fill($updateCategoryDto->toArray());
         $category->save();
 
