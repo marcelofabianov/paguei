@@ -24,6 +24,20 @@ final class CategoriesController extends Controller
     ) {
     }
 
+    public function show(Request $request, string $categoryId): JsonResponse
+    {
+        try {
+            $category = $this->categoryRepository->findCategory(
+                Uuid::create($categoryId),
+                Uuid::create($request->user()->id)
+            );
+        } catch (ModelNotFoundException) {
+            return $this->notFound();
+        }
+
+        return $this->success($category->toArray());
+    }
+
     public function store(Request $request): JsonResponse
     {
         try {

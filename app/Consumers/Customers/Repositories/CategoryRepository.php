@@ -17,6 +17,13 @@ final readonly class CategoryRepository implements CategoryRepositoryContract
     ) {
     }
 
+    public function findCategory(Uuid $categoryId, Uuid $userId): Category
+    {
+        return $this->categoryModel
+            ->whereCategoryAndCreator($categoryId, $userId)
+            ->firstOrFail();
+    }
+
     public function createNewCategory(CreateCategoryDto $createCategoryDto): Category
     {
         $category = $this->categoryModel->newInstance();

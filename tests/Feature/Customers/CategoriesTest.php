@@ -5,12 +5,66 @@ declare(strict_types=1);
 use App\Domain\Models\Category;
 
 use function Pest\Laravel\delete;
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\putJson;
 
 use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(fn () => $this->user = userApiCredentials());
+
+test('Deve receber o registro da categoria que correspondente ao id informado do usuario logado', function () {
+    $category = Category::factory()->createOneQuietly(['userId' => $this->user->id]);
+
+    $response = getJson(route('api.customers.categories.show', $category->id), defaultHeaders())
+        ->assertOk()
+        ->json();
+
+    $expected = [
+        'data' => [
+            'id' => $category->id,
+            'userId' => $this->user->id,
+            'name' => $category->name,
+            'public' => false,
+            'createdAt' => $response['data']['createdAt'],
+            'updatedAt' => $response['data']['updatedAt'],
+            'inactivatedAt' => null,
+        ],
+        'status' => [
+            'code' => Response::HTTP_OK,
+            'message' => 'OK',
+            'success' => true,
+        ],
+    ];
+
+    expect($response)->toEqual($expected);
+})
+    ->group('feature', 'customers', 'categories', 'show', 'success');
+
+test('Deve receber erro 404 quando buscar uma categoria nao existe ou o usuario logado nao possui', function () {
+    $category = Category::factory()->createOneQuietly();
+
+    $response = getJson(route('api.customers.categories.show', $category->id), defaultHeaders())
+        ->assertNotFound()
+        ->json();
+
+    $expected = [
+        'data' => [
+            'message' => 'Resource not found.',
+        ],
+        'status' => [
+            'code' => Response::HTTP_NOT_FOUND,
+            'message' => 'NOT FOUND',
+            'success' => false,
+        ],
+    ];
+
+    expect($response)->toEqual($expected);
+})
+    ->group('feature', 'customers', 'categories', 'show', 'fail');
+
+todo('Deve receber a listagem de categorias que o usuario logado cadastrou em ordem alfabetica')
+    ->group('feature', 'customers', 'categories', 'index', 'success');
 
 test('Deve receber os dados para cadastrar um nova category e retornar o status 201 com registro cadastrado', function () {
     $data = ['name' => fake()->hexColor];
@@ -171,12 +225,6 @@ test('Deve receber indicacao de erros de validacao ao tentar atualizar uma categ
     expect($response)->toEqual($expected);
 })
     ->group('feature', 'customers', 'categories', 'update', 'fail', 'validation');
-
-todo('Deve receber o registro da categoria que correspondente ao id informado do usuario logado')
-    ->group('feature', 'customers', 'categories', 'show', 'success');
-
-todo('Deve receber a listagem de categorias que o usuario logado cadastrou em ordem alfabetica')
-    ->group('feature', 'customers', 'categories', 'index', 'success');
 
 test('Deve informar um id que corresponde a uma categoria criada pelo usuario logado para excluir', function () {
     $category = Category::factory()->createOneQuietly(['userId' => $this->user->id]);

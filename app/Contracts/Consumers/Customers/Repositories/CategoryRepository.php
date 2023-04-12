@@ -16,6 +16,8 @@ interface CategoryRepository
 {
     public function __construct(Category $categoryModel);
 
+    public function findCategory(Uuid $categoryId, Uuid $userId): Category;
+
     public function createNewCategory(CreateCategoryDto $createCategoryDto): Category;
 
     public function updateCategory(UpdateCategoryDto $updateCategoryDto): Category;

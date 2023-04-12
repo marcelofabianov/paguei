@@ -85,3 +85,28 @@ test('Deve retornar um erro ao tentar deletar um registro de "Category" que nao 
     $categoryRepository->deleteCategory(Uuid::random(), Uuid::create($user->id));
 })
     ->group('integration', 'CategoryRepository', 'fail', 'exception');
+
+test('Deve retornar o registro da "Category" correspondente ao id informado e que pertence ao usuario informado', function () {
+    $user = User::factory()->createOneQuietly();
+    $category = Category::factory()->createOneQuietly(['userId' => $user->id]);
+
+    $categoryRepository = new CategoryRepository(new Category());
+    $category = $categoryRepository->findCategory(Uuid::create($category->id), Uuid::create($user->id));
+
+    expect($category)
+        ->toBeInstanceOf(Category::class)
+        ->and($category->id)->toBe($category->id)
+        ->and($category->userId->getValue())->toBe($user->id);
+})
+    ->group('integration', 'CategoryRepository');
+
+test('Deve retornar um erro ao tentar buscar um registro de "Category" que nao existe ou nao pertenca ao usuario', function () {
+    $user = User::factory()->createOneQuietly();
+
+    $categoryRepository = new CategoryRepository(new Category());
+
+    $this->expectException(ModelNotFoundException::class);
+
+    $categoryRepository->findCategory(Uuid::random(), Uuid::create($user->id));
+})
+    ->group('integration', 'CategoryRepository', 'fail', 'exception');
