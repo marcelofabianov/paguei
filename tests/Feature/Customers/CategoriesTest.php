@@ -63,7 +63,66 @@ test('Deve receber erro 404 quando buscar uma categoria nao existe ou o usuario 
 })
     ->group('feature', 'customers', 'categories', 'show', 'fail');
 
-todo('Deve receber a listagem de categorias que o usuario logado cadastrou em ordem alfabetica')
+test('Deve receber a listagem de categorias que o usuario logado cadastrou em ordem alfabetica', function () {
+    $categories = Category::factory()->createOneQuietly(['userId' => $this->user->id]);
+
+    $response = getJson(route('api.customers.categories.index'), defaultHeaders())
+        ->assertOk()
+        ->json();
+
+    $expected = [
+        'data' => [
+            [
+                'id' => $categories->id,
+                'userId' => $this->user->id,
+                'name' => $categories->name,
+                'public' => false,
+                'createdAt' => $response['data'][0]['createdAt'],
+                'updatedAt' => $response['data'][0]['updatedAt'],
+                'inactivatedAt' => null,
+            ],
+        ],
+        'links' => [
+            'first' => route('api.customers.categories.index', ['page' => 1]),
+            'last' => route('api.customers.categories.index', ['page' => 1]),
+            'prev' => null,
+            'next' => null,
+        ],
+        'meta' => [
+            'current_page' => 1,
+            'from' => 1,
+            'last_page' => 1,
+            'links' => [
+                [
+                    'url' => null,
+                    'label' => '&laquo; Previous',
+                    'active' => false,
+                ],
+                [
+                    'url' => route('api.customers.categories.index', ['page' => 1]),
+                    'label' => '1',
+                    'active' => true,
+                ],
+                [
+                    'url' => null,
+                    'label' => 'Next &raquo;',
+                    'active' => false,
+                ],
+            ],
+            'path' => route('api.customers.categories.index'),
+            'per_page' => 50,
+            'to' => 1,
+            'total' => 1,
+        ],
+        'status' => [
+            'code' => Response::HTTP_OK,
+            'message' => 'OK',
+            'success' => true,
+        ],
+    ];
+
+    expect($response)->toEqual($expected);
+})
     ->group('feature', 'customers', 'categories', 'index', 'success');
 
 test('Deve receber os dados para cadastrar um nova category e retornar o status 201 com registro cadastrado', function () {

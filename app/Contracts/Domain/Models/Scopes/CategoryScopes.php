@@ -9,5 +9,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface CategoryScopes
 {
-    public function scopeWhereCategoryAndCreator($query, Uuid $categoryId, Uuid $userId): Builder;
+    public function scopeOrderByName(Builder $query): Builder;
+
+    public function scopeWhenActive(Builder $query): Builder;
+
+    public function scopeWhenInactivated(Builder $query): Builder;
+
+    public function scopeWhereCreator(Builder $query, Uuid $userId): Builder;
+
+    public function scopeWhereCategoryAndCreator(Builder $query, Uuid $categoryId, Uuid $userId): Builder;
 }

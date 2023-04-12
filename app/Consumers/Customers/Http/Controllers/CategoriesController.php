@@ -6,6 +6,7 @@ namespace App\Consumers\Customers\Http\Controllers;
 
 use App\Consumers\Customers\Dto\CreateCategoryDto;
 use App\Consumers\Customers\Dto\UpdateCategoryDto;
+use App\Consumers\Customers\Http\Resources\CategoryCollection;
 use App\Contracts\Consumers\Customers\Repositories\CategoryRepository;
 use App\Domain\ValueObjects\Uuid;
 use App\Main\Http\Controllers\Controller;
@@ -22,6 +23,13 @@ final class CategoriesController extends Controller
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
     ) {
+    }
+
+    public function index(Request $request): CategoryCollection
+    {
+        return new CategoryCollection($this->categoryRepository->listCategories(
+            Uuid::create($request->user()->id)
+        ));
     }
 
     public function show(Request $request, string $categoryId): JsonResponse

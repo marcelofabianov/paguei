@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property bool $public
  *
  * @method whereCategoryAndCreator(Uuid $categoryId, Uuid $userId)
+ * @method whereCreator(Uuid $userId)
+ * @method whenActive()
+ * @method whenInactivated()
  */
 final class Category extends Model implements CategoryScopesContract
 {

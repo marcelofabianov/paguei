@@ -8,6 +8,7 @@ use App\Consumers\Customers\Dto\CreateCategoryDto;
 use App\Consumers\Customers\Dto\UpdateCategoryDto;
 use App\Domain\Models\Category;
 use App\Domain\ValueObjects\Uuid;
+use Illuminate\Contracts\Pagination\Paginator;
 
 /**
  * @property-read Category $categoryModel
@@ -15,6 +16,8 @@ use App\Domain\ValueObjects\Uuid;
 interface CategoryRepository
 {
     public function __construct(Category $categoryModel);
+
+    public function listCategories(Uuid $userId): Paginator;
 
     public function findCategory(Uuid $categoryId, Uuid $userId): Category;
 

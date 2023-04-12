@@ -9,7 +9,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait CategoryScopes
 {
-    public function scopeWhereCategoryAndCreator($query, Uuid $categoryId, Uuid $userId): Builder
+    public function scopeOrderByName(Builder $query): Builder
+    {
+        return $query->orderBy('name');
+    }
+
+    public function scopeWhereCreator(Builder $query, Uuid $userId): Builder
+    {
+        return $query->where('userId', $userId->getValue());
+    }
+
+    public function scopeWhereCategoryAndCreator(Builder $query, Uuid $categoryId, Uuid $userId): Builder
     {
         return $query
             ->where('id', $categoryId->getValue())

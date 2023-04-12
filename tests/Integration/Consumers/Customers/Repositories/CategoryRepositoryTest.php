@@ -8,6 +8,7 @@ use App\Consumers\Customers\Repositories\CategoryRepository;
 use App\Domain\Models\Category;
 use App\Domain\Models\User;
 use App\Domain\ValueObjects\Uuid;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 test('Deve criar uma nova categoria com a instancia "CreateCategoryDto" e após retornar o registro', function () {
@@ -110,3 +111,30 @@ test('Deve retornar um erro ao tentar buscar um registro de "Category" que nao e
     $categoryRepository->findCategory(Uuid::random(), Uuid::create($user->id));
 })
     ->group('integration', 'CategoryRepository', 'fail', 'exception');
+
+test('Deve retornar uma colecao de "Category" paginada ordernada pelo nome que pertencem ao usuario informado', function () {
+    $user = User::factory()->createOneQuietly();
+    $categoryOne = Category::factory()->createOneQuietly(['name' => 'DEF', 'userId' => $user->id]);
+    $categoryTwo = Category::factory()->createOneQuietly(['name' => 'ABC', 'userId' => $user->id]);
+
+    $categoryRepository = new CategoryRepository(new Category());
+    $categories = $categoryRepository->listCategories(Uuid::create($user->id));
+
+    expect($categories)->toBeInstanceOf(Paginator::class)
+        ->and($categories->count())->toBe(2)
+        ->and($categories->last()->id)->toBe($categoryOne->id)
+        ->and($categories->first()->id)->toBe($categoryTwo->id);
+})
+    ->group('integration', 'CategoryRepository');
+
+test('Deve retornar uma colecao vazia de "Category" se o usuario informado nao tiver registros de categorias disponiveis', function () {
+    $user = User::factory()->createOneQuietly();
+    Category::factory()->createOneQuietly(); // Cria uma categoria para outro usuario
+
+    $categoryRepository = new CategoryRepository(new Category());
+    $categories = $categoryRepository->listCategories(Uuid::create($user->id));
+
+    expect($categories)->toBeInstanceOf(Paginator::class)
+        ->and($categories->count())->toBe(0);
+})
+    ->group('integration', 'CategoryRepository');

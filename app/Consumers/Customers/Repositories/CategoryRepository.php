@@ -9,12 +9,22 @@ use App\Consumers\Customers\Dto\UpdateCategoryDto;
 use App\Contracts\Consumers\Customers\Repositories\CategoryRepository as CategoryRepositoryContract;
 use App\Domain\Models\Category;
 use App\Domain\ValueObjects\Uuid;
+use Illuminate\Contracts\Pagination\Paginator;
 
 final readonly class CategoryRepository implements CategoryRepositoryContract
 {
     public function __construct(
         private Category $categoryModel
     ) {
+    }
+
+    public function listCategories(Uuid $userId): Paginator
+    {
+        return $this->categoryModel
+            ->whereCreator($userId)
+            ->whenActive()
+            ->orderByName()
+            ->paginate();
     }
 
     public function findCategory(Uuid $categoryId, Uuid $userId): Category

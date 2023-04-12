@@ -32,7 +32,7 @@ class Model extends Eloquent
 
     public $incrementing = false;
 
-    protected $perPage = 200;
+    protected $perPage = 50;
 
     protected $table = 'users';
 

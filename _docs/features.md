@@ -7,8 +7,8 @@ Voltar ao [Índice](../README.md)
 - [x] Cadastrar categoria
 - [x] Atualizar categoria
 - [x] Deletar categoria
-- [ ] Listar categorias
-- [ ] Buscar categoria por id
+- [x] Listar categorias
+- [x] Buscar categoria por id
 
 ### Cliente / Tags
 
